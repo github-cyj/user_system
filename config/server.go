@@ -19,4 +19,6 @@ var ServerConfig = &Server{
 
 func init() {
 	utils.LoadConfig("server", ServerConfig)
+	ServerConfig.ReadTimeout = ServerConfig.ReadTimeout * time.Second
+	ServerConfig.WriteTimeout = ServerConfig.WriteTimeout * time.Second
 }

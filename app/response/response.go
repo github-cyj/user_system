@@ -1,7 +1,6 @@
 package response
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"user_system/app/constants"
@@ -30,10 +29,17 @@ func (g *Gin) Success(data interface{}) {
 	g.Response(http.StatusOK, constants.Success, data)
 }
 
-func (g *Gin) Error(httpCode int, errCode int, data ...interface{}) {
-	fmt.Printf("%v", data)
-	g.C.JSON(httpCode, Response{
+func (g *Gin) Error(errCode int, data ...interface{}) {
+	g.C.JSON(http.StatusBadRequest, Response{
 		Code: errCode,
-		Msg:  constants.GetMsg(errCode, data),
+		Msg:  constants.GetMsg(errCode, data...),
 	})
+}
+
+type Error struct {
+	Msg string
+}
+
+func (e Error) Error() string {
+	return e.Msg
 }

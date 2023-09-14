@@ -1,6 +1,9 @@
 package constants
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 const (
 	Success = 200
@@ -28,8 +31,17 @@ var MsgMap = map[int]string{
 func GetMsg(errorCode int, data ...interface{}) string {
 	msg, ok := MsgMap[errorCode]
 	if ok {
-		return msg
+		strCount := strings.Count(msg, "%")
+		if strCount == 0 {
+			return msg
+		} else {
+			dataCount := len(data)
+			if dataCount == strCount {
+				return fmt.Sprintf(msg, data...)
+			} else {
+				return fmt.Sprint(msg, data, "通过%检测，参数数量与提供内容不符")
+			}
+		}
 	}
-	fmt.Printf("%v", data)
-	return fmt.Sprintf(MsgMap[Error], data)
+	return MsgMap[Error]
 }

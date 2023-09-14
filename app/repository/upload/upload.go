@@ -10,22 +10,15 @@ import (
 	"os"
 	"path/filepath"
 	"user_system/app/constants"
+	"user_system/app/response"
 	"user_system/config"
 )
-
-type Error struct {
-	Msg string
-}
-
-func (e *Error) Error() string {
-	return e.Msg
-}
 
 func Upload(c *gin.Context, headers *multipart.FileHeader) (filePath string, errCode int, err error) {
 	if headers.Size > config.FileConfig.MaxMultipartMemory {
 		maxSize := config.FileConfig.MaxMultipartMemory >> 20
 		log.Printf("文件大于%dM", maxSize)
-		return "", constants.ErrorFileExceedsMaxSize, &Error{fmt.Sprintf("%d", maxSize)}
+		return "", constants.ErrorFileExceedsMaxSize, response.Error{fmt.Sprintf("%d", maxSize)}
 	}
 
 	md5Str, errCode, err := GetFileMD5ByHeaders(headers)

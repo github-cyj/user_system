@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"user_system/app/constants"
 	"user_system/app/request"
 	"user_system/app/response"
@@ -16,12 +15,13 @@ func (controller UserController) List(c *gin.Context) {
 	userListRequest := request.NewUserListRequest()
 	err := c.ShouldBind(userListRequest)
 	if err != nil {
-		r.Error(http.StatusBadRequest, constants.ErrorBind)
+		r.Error(constants.ErrorBind)
 		return
 	}
 	r.Success(userListRequest)
 }
 
 func (controller UserController) Get(c *gin.Context) {
-	c.JSON(200, gin.H{"message": "success", "status": 200})
+	r := response.Gin{C: c}
+	r.Success(c.Param("id"))
 }

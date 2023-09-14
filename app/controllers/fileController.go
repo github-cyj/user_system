@@ -1,10 +1,8 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
-	"net/http"
 	"user_system/app/constants"
 	"user_system/app/repository/upload"
 	"user_system/app/response"
@@ -19,14 +17,13 @@ func (controller FileController) Upload(c *gin.Context) {
 
 	if err != nil {
 		log.Printf("获取上传文件失败: %v", err)
-		fmt.Printf("%v", err)
-		r.Error(http.StatusBadRequest, constants.ErrorFileGetFail, err)
+		r.Error(constants.ErrorFileGetFail, err)
 		return
 	}
 
 	filePath, errCode, err := upload.Upload(c, headers)
 	if errCode != 0 {
-		r.Error(http.StatusBadRequest, errCode, err)
+		r.Error(errCode, err)
 		return
 	}
 	r.Success(filePath)

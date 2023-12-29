@@ -6,8 +6,14 @@ import (
 	"log"
 	"net/http"
 	"user_system/config"
-	"user_system/setup"
+	"user_system/routes"
 )
+
+func init() {
+	config.Server{}.Setup()
+	config.DB{}.Setup()
+	config.File{}.Setup()
+}
 
 func main() {
 	// 日志输出到文件和控制台两个位置
@@ -16,7 +22,7 @@ func main() {
 	gin.SetMode(config.ServerConfig.RunMode)
 	server := &http.Server{
 		Addr:           fmt.Sprintf(":%d", config.ServerConfig.HttpPort),
-		Handler:        setup.Route(),
+		Handler:        routes.Route(),
 		ReadTimeout:    config.ServerConfig.ReadTimeout,
 		WriteTimeout:   config.ServerConfig.WriteTimeout,
 		MaxHeaderBytes: config.ServerConfig.MaxHeaderBytes,

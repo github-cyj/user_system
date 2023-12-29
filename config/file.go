@@ -1,7 +1,7 @@
 package config
 
 import (
-	"user_system/pkg/utils"
+	"user_system/src/utils"
 )
 
 type File struct {
@@ -13,6 +13,6 @@ var FileConfig = &File{
 	MaxMultipartMemory: 8 << 20,
 }
 
-func init() {
+func (file File) Setup() {
 	utils.LoadConfig("file", FileConfig)
 }

@@ -15,6 +15,7 @@ const (
 	ErrorFileOpenFail       = 10500003
 	ErrorFileCopyFail       = 10500004
 	ErrorFileGetFail        = 10500005
+	ErrorNotExits           = 10500006
 )
 
 var MsgMap = map[int]string{
@@ -26,6 +27,7 @@ var MsgMap = map[int]string{
 	ErrorFileOpenFail:       "文件打开失败",
 	ErrorFileCopyFail:       "文件复制副本失败",
 	ErrorFileGetFail:        "获取上传文件失败: %v",
+	ErrorNotExits:           "%s不存在",
 }
 
 func GetMsg(errorCode int, data ...interface{}) string {
@@ -36,6 +38,7 @@ func GetMsg(errorCode int, data ...interface{}) string {
 			return msg
 		} else {
 			dataCount := len(data)
+
 			if dataCount == strCount {
 				return fmt.Sprintf(msg, data...)
 			} else {

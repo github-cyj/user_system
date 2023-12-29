@@ -8,6 +8,7 @@ import (
 func FileRoute(engine *gin.RouterGroup) {
 	user := engine.Group("/file")
 	{
-		user.POST("/upload", controllers.FileController{}.Upload)
+		user.POST("/upload_single", controllers.FileController{}.UploadSingle)
+		user.POST("/upload_multi", controllers.FileController{}.UploadMulti)
 	}
 }

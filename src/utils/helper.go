@@ -3,13 +3,15 @@ package utils
 import (
 	"github.com/go-ini/ini"
 	"log"
+	"os"
 )
 
 var cfg *ini.File
 
 func LoadConfig(section string, v interface{}) {
 	var err error
-	cfg, err = ini.Load(".ini")
+	dir, _ := os.Getwd()
+	cfg, err = ini.Load(dir + "/.ini")
 	if err != nil {
 		log.Fatalf("setting.Setup, fail to parse 'conf/app.ini': %v", err)
 	}

@@ -2,7 +2,7 @@ package config
 
 import (
 	"time"
-	"user_system/pkg/utils"
+	"user_system/src/utils"
 )
 
 type Server struct {
@@ -11,13 +11,14 @@ type Server struct {
 	ReadTimeout    time.Duration
 	RunMode        string
 	MaxHeaderBytes int
+	DbType         string
 }
 
 var ServerConfig = &Server{
 	MaxHeaderBytes: 1 << 20,
 }
 
-func init() {
+func (server Server) Setup() {
 	utils.LoadConfig("server", ServerConfig)
 	ServerConfig.ReadTimeout = ServerConfig.ReadTimeout * time.Second
 	ServerConfig.WriteTimeout = ServerConfig.WriteTimeout * time.Second

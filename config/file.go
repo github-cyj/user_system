@@ -10,7 +10,7 @@ type File struct {
 }
 
 var FileConfig = &File{
-	MaxMultipartMemory: 8 << 20,
+	MaxMultipartMemory: 5 * 1024 * 1024,
 }
 
 func (file File) Setup() {

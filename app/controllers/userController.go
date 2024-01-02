@@ -16,32 +16,28 @@ func (controller UserController) PageList(c *gin.Context) {
 	userListRequest := request.NewUserListRequest()
 	err := c.ShouldBind(&userListRequest)
 	if err != nil {
-		response.NewError(constants.Error, err).Error(c)
+		response.NewErrorResponseWithError(constants.Error, err).Return(c)
 		return
 	}
-	result := repository.UserRepository{}.GetList(userListRequest)
-	response.NewSuccess(result).Success(c)
+	userList, r := repository.UserRepository{}.GetList(userListRequest)
+	r.ReturnWithData(c, userList)
 }
 
 func (controller UserController) Get(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	result := repository.UserRepository{}.Get(uint(id))
-	if result.ID == 0 {
-		response.NewErrorWithData(constants.ErrorNotExits, "用户").Error(c)
-		return
-	}
-	response.NewSuccess(result).Success(c)
+	user, r := repository.UserRepository{}.Get(uint(id))
+	r.ReturnWithData(c, user)
 }
 
 func (controller UserController) Add(c *gin.Context) {
 	userAddRequest := request.NewUserAddRequest()
 	err := c.ShouldBind(&userAddRequest)
 	if err != nil {
-		response.NewError(constants.ErrorBind, err).Error(c)
+		response.NewErrorResponseWithError(constants.ErrorBind, err).Return(c)
 		return
 	}
-	result := repository.UserRepository{}.Add(userAddRequest)
-	response.NewSuccess(result).Success(c)
+	id, r := repository.UserRepository{}.Add(userAddRequest)
+	r.ReturnWithData(c, id)
 
 }
 
@@ -49,32 +45,23 @@ func (controller UserController) Edit(c *gin.Context) {
 	userEditRequest := request.NewUserEditRequest()
 	err := c.ShouldBind(&userEditRequest)
 	if err != nil {
-		response.NewError(constants.ErrorBind, err).Error(c)
+		response.NewErrorResponseWithError(constants.ErrorBind, err).Return(c)
 		return
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
-	userInfo := repository.UserRepository{}.Get(uint(id))
-	if userInfo.ID == 0 {
-		response.NewErrorWithData(constants.ErrorNotExits, "用户").Error(c)
-		return
-	}
-	result := repository.UserRepository{}.Edit(uint(id), userEditRequest)
-	response.NewSuccess(result).Success(c)
+	updateCount, r := repository.UserRepository{}.Edit(uint(id), userEditRequest)
+	r.ReturnWithData(c, updateCount)
 }
 
 func (controller UserController) Delete(c *gin.Context) {
 	userEditRequest := request.NewUserEditRequest()
 	err := c.ShouldBind(&userEditRequest)
 	if err != nil {
-		response.NewError(constants.ErrorBind, err).Error(c)
+		response.NewErrorResponseWithError(constants.ErrorBind, err).Return(c)
 		return
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
-	userInfo := repository.UserRepository{}.Get(uint(id))
-	if userInfo.ID == 0 {
-		response.NewErrorWithData(constants.ErrorNotExits, "用户").Error(c)
-		return
-	}
-	result := repository.UserRepository{}.Delete(uint(id))
-	response.NewSuccess(result).Success(c)
+
+	deleteCount, r := repository.UserRepository{}.Delete(uint(id))
+	r.ReturnWithData(c, deleteCount)
 }

@@ -16,7 +16,7 @@ import (
 
 func Upload(c *gin.Context, headers *multipart.FileHeader) (saveFilePath string, r *response.Response) {
 	if headers.Size > config.FileConfig.MaxMultipartMemory {
-		maxSize := config.FileConfig.MaxMultipartMemory >> 20
+		maxSize := config.FileConfig.MaxMultipartMemory / 1024 / 1024
 		log.Printf("文件大于%dM", maxSize)
 		return saveFilePath, response.NewErrorResponseWithData(constants.ErrorFileExceedsMaxSize, maxSize)
 	}
@@ -37,14 +37,15 @@ func Upload(c *gin.Context, headers *multipart.FileHeader) (saveFilePath string,
 			return "", response.NewErrorResponse(constants.ErrorFileUploadFail)
 		}
 	}
-	return saveFilePath, response.NewSuccessResponse(saveFilePath)
+	return saveFilePath, r
 }
 
-func GetFileMD5ByPath(pathName string) (md5Str string, errCode int, err error) {
+func GetFileMD5ByPath(pathName string) (md5Str string, r *response.Response) {
 	f, err := os.Open(pathName)
 	if err != nil {
 		log.Printf("文件打开失败:%s", err)
-		return "", constants.ErrorFileOpenFail, err
+		r = response.NewErrorResponse(constants.ErrorFileOpenFail)
+		return md5Str, r
 	}
 	defer func(f *os.File) {
 		_ = f.Close()
@@ -53,12 +54,12 @@ func GetFileMD5ByPath(pathName string) (md5Str string, errCode int, err error) {
 	md5hash := md5.New()
 	if _, err = io.Copy(md5hash, f); err != nil {
 		log.Printf("复制副本失败:%s", err)
-		return "", constants.ErrorFileCopyFail, err
-
+		r = response.NewErrorResponse(constants.ErrorFileCopyFail)
+		return md5Str, r
 	}
 	has := md5hash.Sum(nil)
 	md5Str = fmt.Sprintf("%x", has)
-	return md5Str, 0, err
+	return md5Str, r
 }
 
 func GetFileMD5ByHeaders(headers *multipart.FileHeader) (md5Str string, r *response.Response) {

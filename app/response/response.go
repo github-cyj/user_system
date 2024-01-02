@@ -49,62 +49,14 @@ func (r *Response) Return(c *gin.Context) {
 	}
 }
 
+func (r *Response) ReturnWithData(c *gin.Context, data interface{}) {
+	if r == nil {
+		NewSuccessResponse(data).Return(c)
+	} else {
+		r.Return(c)
+	}
+}
+
 func (r *Response) ReturnWithHttpCode(c *gin.Context, HttpCode int) {
 	c.JSON(HttpCode, &r)
-}
-
-var HttpCode int
-
-func NewError(errCode int, error error) Response {
-	var errorMsg string
-
-	if error == nil {
-		errorMsg = constants.GetMsg(errCode)
-	} else {
-		errorMsg = error.Error()
-	}
-
-	return Response{
-		Code: errCode,
-		Msg:  errorMsg,
-	}
-}
-
-func NewErrorWithData(errCode int, data ...interface{}) Response {
-	var errorMsg string = GetError(errCode, data...).Error()
-	return Response{
-		Code: errCode,
-		Msg:  errorMsg,
-	}
-}
-
-func NewSuccess(data interface{}) Response {
-	return Response{
-		Code: constants.Success,
-		Msg:  constants.GetMsg(constants.Success),
-		Data: data,
-	}
-}
-
-func (r Response) Error(c *gin.Context) {
-	if HttpCode == 0 {
-		c.JSON(http.StatusBadRequest, r)
-	}
-	c.JSON(HttpCode, r)
-}
-
-func (r Response) Success(c *gin.Context) {
-	c.JSON(http.StatusOK, r)
-}
-
-func GetError(errCode int, data ...interface{}) Error {
-	return Error{Msg: constants.GetMsg(errCode, data...)}
-}
-
-type Error struct {
-	Msg string
-}
-
-func (e Error) Error() string {
-	return e.Msg
 }

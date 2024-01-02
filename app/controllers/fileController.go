@@ -18,8 +18,8 @@ func (controller FileController) UploadSingle(c *gin.Context) {
 		response.NewErrorResponseWithError(constants.ErrorFileGetFail, err).Return(c)
 		return
 	}
-	_, r := upload.Upload(c, headers)
-	r.Return(c)
+	saveFilePath, r := upload.Upload(c, headers)
+	r.ReturnWithData(c, saveFilePath)
 }
 
 func (controller FileController) UploadMulti(c *gin.Context) {
@@ -46,5 +46,5 @@ func (controller FileController) UploadMulti(c *gin.Context) {
 			return
 		}
 	}
-	response.NewSuccess(filePathList).Success(c)
+	response.NewSuccessResponse(filePathList).Return(c)
 }

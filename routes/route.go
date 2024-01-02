@@ -19,11 +19,10 @@ func Route() *gin.Engine {
 	// 异常处理
 	r.Use(gin.Recovery())
 	r.Use(gin.RecoveryWithWriter(os.Stderr, func(c *gin.Context, err any) {
-		response.HttpCode = http.StatusInternalServerError
-		response.NewError(
+		response.NewErrorResponseWithError(
 			constants.Error,
 			errors.New(fmt.Sprintf("%v", err)),
-		)
+		).ReturnWithHttpCode(c, http.StatusInternalServerError)
 	}))
 	getApi(r)
 	return r

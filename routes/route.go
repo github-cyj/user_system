@@ -17,13 +17,13 @@ func Route() *gin.Engine {
 	// 跨域处理
 	r.Use(middleware.CORSMiddleware())
 	// 异常处理
-	r.Use(gin.Recovery())
 	r.Use(gin.RecoveryWithWriter(os.Stderr, func(c *gin.Context, err any) {
 		response.NewErrorResponseWithError(
 			constants.Error,
 			errors.New(fmt.Sprintf("%v", err)),
 		).ReturnWithHttpCode(c, http.StatusInternalServerError)
 	}))
+	// 加载路由定义
 	getApi(r)
 	return r
 }
@@ -31,7 +31,11 @@ func Route() *gin.Engine {
 func getApi(engine *gin.Engine) {
 	apiRoute := engine.Group("api")
 	{
+		// 用户
 		api.UserRoute(apiRoute)
+		// 文件
 		api.FileRoute(apiRoute)
+		// 权限
+		api.AuthRoute(apiRoute)
 	}
 }

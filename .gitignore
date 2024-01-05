@@ -1,4 +1,6 @@
 .idea
+.vscode
 /upload/
 .htaccess
 *.ini
+/logs/*

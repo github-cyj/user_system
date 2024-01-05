@@ -17,6 +17,8 @@ const (
 	ErrorFileGetFail        = 10500005
 	ErrorNotExits           = 10500006
 	ErrorAddFail            = 10500007
+	ErrorUsername           = 10500008
+	ErrorPassword           = 10500009
 )
 
 var MsgMap = map[int]string{
@@ -30,6 +32,8 @@ var MsgMap = map[int]string{
 	ErrorFileGetFail:        "获取上传文件失败: %v",
 	ErrorNotExits:           "%s不存在",
 	ErrorAddFail:            "%s添加失败",
+	ErrorUsername:           "用户名错误",
+	ErrorPassword:           "密码错误",
 }
 
 func GetMsg(errorCode int, data ...interface{}) string {

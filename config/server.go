@@ -2,7 +2,7 @@ package config
 
 import (
 	"time"
-	"user_system/src/utils"
+	"user_system/utils"
 )
 
 type Server struct {
@@ -15,11 +15,12 @@ type Server struct {
 }
 
 var ServerConfig = &Server{
-	MaxHeaderBytes: 1 << 20,
+	MaxHeaderBytes: 1,
 }
 
 func (server Server) Setup() {
 	utils.LoadConfig("server", ServerConfig)
 	ServerConfig.ReadTimeout = ServerConfig.ReadTimeout * time.Second
 	ServerConfig.WriteTimeout = ServerConfig.WriteTimeout * time.Second
+	ServerConfig.MaxHeaderBytes = ServerConfig.MaxHeaderBytes * 1024 * 1024
 }

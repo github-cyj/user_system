@@ -10,9 +10,12 @@ import (
 type UserRepository struct {
 }
 
-func (repository UserRepository) GetList(params *request.UserListRequest) (userList []models.User, r *response.Response) {
+func (repository UserRepository) GetList(params *request.UserListRequest) (userList response.UserListResponse, r *response.Response) {
 	offset := (params.Page - 1) * (params.Size)
-	models.NewDb().Offset(offset).Limit(params.Size).Find(&userList)
+	//获取数据
+	models.NewDb().Offset(offset).Limit(params.Size).Find(&userList.Data).
+		//获取条数
+		Offset(-1).Limit(-1).Count(&userList.Total)
 	return userList, r
 }
 

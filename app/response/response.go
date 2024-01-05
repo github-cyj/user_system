@@ -42,11 +42,11 @@ func NewErrorResponseWithData(errCode int, data ...interface{}) *Response {
 }
 
 func (r *Response) Return(c *gin.Context) {
-	if r.Code == constants.Success {
-		r.ReturnWithHttpCode(c, http.StatusOK)
-	} else {
-		r.ReturnWithHttpCode(c, http.StatusBadRequest)
-	}
+	//if r.Code == constants.Success {
+	r.ReturnWithHttpCode(c, http.StatusOK)
+	//} else {
+	//	r.ReturnWithHttpCode(c, http.StatusBadRequest)
+	//}
 }
 
 func (r *Response) ReturnWithData(c *gin.Context, data interface{}) {

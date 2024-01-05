@@ -6,7 +6,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
-	"user_system/src/utils"
+	"user_system/utils"
 )
 
 type DB struct {

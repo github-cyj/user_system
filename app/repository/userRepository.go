@@ -30,6 +30,7 @@ func (repository UserRepository) Get(id uint) (user models.User, r *response.Res
 func (repository UserRepository) Add(params *request.UserAddRequest) (id uint, r *response.Response) {
 	user := models.User{
 		Username: params.Username,
+		Avatar:   params.Avatar,
 	}
 	models.NewDb().Create(&user)
 	return user.ID, r
@@ -42,6 +43,7 @@ func (repository UserRepository) Edit(id uint, params *request.UserEditRequest) 
 	}
 	user := models.User{
 		Username: params.Username,
+		Avatar:   params.Avatar,
 	}
 	result := models.NewDb().Where("id = ?", id).Updates(&user)
 	return result.RowsAffected, r

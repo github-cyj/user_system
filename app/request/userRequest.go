@@ -7,10 +7,12 @@ type UserListRequest struct {
 
 type UserAddRequest struct {
 	Username string `form:"username" json:"username" binding:"required"`
+	Avatar   string `form:"avatar" json:"avatar"`
 }
 
 type UserEditRequest struct {
 	Username string `form:"username" json:"username"`
+	Avatar   string `form:"avatar" json:"avatar"`
 }
 
 func NewUserListRequest() *UserListRequest {

@@ -65,3 +65,15 @@ func (controller UserController) Delete(c *gin.Context) {
 	deleteCount, r := repository.UserRepository{}.Delete(uint(id))
 	r.ReturnWithData(c, deleteCount)
 }
+
+func (controller UserController) UpdatePassword(c *gin.Context) {
+	updatePasswordRequest := request.NewUpdatePasswordRequest()
+	err := c.ShouldBind(&updatePasswordRequest)
+	if err != nil {
+		response.NewErrorResponseWithError(constants.ErrorBind, err).Return(c)
+		return
+	}
+	id, _ := strconv.Atoi(c.Param("id"))
+	updateCount, r := repository.UserRepository{}.UpdatePassword(uint(id), updatePasswordRequest)
+	r.ReturnWithData(c, updateCount)
+}

@@ -26,3 +26,8 @@ func (controller AuthController) Info(c *gin.Context) {
 	userInfo, r := repository.AuthRepository{}.Info()
 	r.ReturnWithData(c, userInfo)
 }
+
+func (controller AuthController) Logout(c *gin.Context) {
+	r := repository.AuthRepository{}.Logout()
+	r.Return(c)
+}

@@ -6,9 +6,10 @@ import (
 )
 
 const (
-	Success = 200
-	Error   = 500
-
+	Success                 = 200
+	Error                   = 500
+	ErrorBase               = 10500000
+	InvalidToken            = 10400001
 	ErrorBind               = 10404001
 	ErrorFileExceedsMaxSize = 10500001
 	ErrorFileUploadFail     = 10500002
@@ -17,13 +18,15 @@ const (
 	ErrorFileGetFail        = 10500005
 	ErrorNotExits           = 10500006
 	ErrorAddFail            = 10500007
-	ErrorUsername           = 10500008
-	ErrorPassword           = 10500009
+	ErrorUsernameOrPassword = 10500008
+	ErrorDifferentPasswords = 10500009
 )
 
 var MsgMap = map[int]string{
 	Success:                 "success",
 	Error:                   "error",
+	InvalidToken:            "token无效",
+	ErrorBase:               "%s",
 	ErrorBind:               "参数获取失败",
 	ErrorFileExceedsMaxSize: "文件大于%vM",
 	ErrorFileUploadFail:     "文件上传失败",
@@ -32,8 +35,8 @@ var MsgMap = map[int]string{
 	ErrorFileGetFail:        "获取上传文件失败: %v",
 	ErrorNotExits:           "%s不存在",
 	ErrorAddFail:            "%s添加失败",
-	ErrorUsername:           "用户名错误",
-	ErrorPassword:           "密码错误",
+	ErrorUsernameOrPassword: "用户名或密码错误",
+	ErrorDifferentPasswords: "两次输入密码不一致",
 }
 
 func GetMsg(errorCode int, data ...interface{}) string {

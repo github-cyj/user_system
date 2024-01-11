@@ -20,6 +20,7 @@ func init() {
 	config.Server{}.Setup()
 	config.DB{}.Setup()
 	config.File{}.Setup()
+	config.Redis{}.Setup()
 }
 
 func main() {

@@ -6,11 +6,10 @@ import (
 )
 
 const (
-	Success                 = 200
-	Error                   = 500
+	Success = 200
+	Error   = 500
+
 	ErrorBase               = 10500000
-	InvalidToken            = 10400001
-	ErrorBind               = 10404001
 	ErrorFileExceedsMaxSize = 10500001
 	ErrorFileUploadFail     = 10500002
 	ErrorFileOpenFail       = 10500003
@@ -20,6 +19,9 @@ const (
 	ErrorAddFail            = 10500007
 	ErrorUsernameOrPassword = 10500008
 	ErrorDifferentPasswords = 10500009
+
+	InvalidToken = 10400001
+	ErrorBind    = 10400002
 )
 
 var MsgMap = map[int]string{
@@ -27,7 +29,7 @@ var MsgMap = map[int]string{
 	Error:                   "error",
 	InvalidToken:            "token无效",
 	ErrorBase:               "%s",
-	ErrorBind:               "参数获取失败",
+	ErrorBind:               "参数错误",
 	ErrorFileExceedsMaxSize: "文件大于%vM",
 	ErrorFileUploadFail:     "文件上传失败",
 	ErrorFileOpenFail:       "文件打开失败",

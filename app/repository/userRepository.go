@@ -14,14 +14,14 @@ type UserRepository struct {
 func (repository UserRepository) GetList(params *request.UserListRequest) (userList response.UserListResponse, r *response.Response) {
 	offset := (params.Page - 1) * (params.Size)
 	//获取数据
-	models.NewDb().Order("id desc").Offset(offset).Limit(params.Size).Find(&userList.Data).
+	models.Db.Order("id desc").Offset(offset).Limit(params.Size).Find(&userList.Data).
 		//获取条数
 		Offset(-1).Limit(-1).Count(&userList.Total)
 	return userList, r
 }
 
 func (repository UserRepository) Get(id uint) (user models.User, r *response.Response) {
-	models.NewDb().Where("id = ?", id).First(&user)
+	models.Db.Where("id = ?", id).First(&user)
 	if user.ID == 0 {
 		r = response.NewErrorResponseWithData(constants.ErrorNotExits, "用户")
 	}
@@ -37,7 +37,7 @@ func (repository UserRepository) Add(params *request.UserAddRequest) (id uint, r
 		Email:    params.Email,
 		Password: utils.MD5("123456"),
 	}
-	models.NewDb().Create(&user)
+	models.Db.Create(&user)
 	return user.ID, r
 }
 
@@ -53,13 +53,13 @@ func (repository UserRepository) Edit(id uint, params *request.UserEditRequest) 
 		Tel:      params.Tel,
 		Email:    params.Email,
 	}
-	result := models.NewDb().Where("id = ?", id).Updates(&user)
+	result := models.Db.Where("id = ?", id).Updates(&user)
 	return result.RowsAffected, r
 }
 
 func (repository UserRepository) Delete(id uint) (deleteCount int64, r *response.Response) {
 	var user models.User
-	result := models.NewDb().Where("id = ?", id).Delete(&user)
+	result := models.Db.Where("id = ?", id).Delete(&user)
 	return result.RowsAffected, r
 }
 
@@ -82,6 +82,6 @@ func (repository UserRepository) UpdatePassword(id uint, params *request.UpdateP
 		return updateCount, r
 	}
 	user.Password = newPassword
-	result := models.NewDb().Where("id = ?", id).Updates(&user)
+	result := models.Db.Where("id = ?", id).Updates(&user)
 	return result.RowsAffected, r
 }

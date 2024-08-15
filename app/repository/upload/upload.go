@@ -11,12 +11,12 @@ import (
 	"path/filepath"
 	"user_system/app/constants"
 	"user_system/app/response"
-	"user_system/config"
+	"user_system/conf"
 )
 
 func Upload(c *gin.Context, headers *multipart.FileHeader) (saveFilePath string, r *response.Response) {
-	if headers.Size > config.FileConfig.MaxMultipartMemory {
-		maxSize := config.FileConfig.MaxMultipartMemory / 1024 / 1024
+	if headers.Size > conf.FileConf.MaxMultipartMemory {
+		maxSize := conf.FileConf.MaxMultipartMemory / 1024 / 1024
 		log.Printf("文件大于%dM", maxSize)
 		return saveFilePath, response.NewErrorResponseWithData(constants.ErrorFileExceedsMaxSize, maxSize)
 	}
@@ -27,7 +27,7 @@ func Upload(c *gin.Context, headers *multipart.FileHeader) (saveFilePath string,
 	}
 	fileExt := filepath.Ext(headers.Filename)
 
-	saveFilePath = config.FileConfig.Path + md5Str + fileExt
+	saveFilePath = conf.FileConf.Path + md5Str + fileExt
 	_, err := os.Stat(saveFilePath)
 	// 文件不存在
 	if os.IsNotExist(err) {

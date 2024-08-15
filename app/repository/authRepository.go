@@ -20,7 +20,7 @@ func (repository AuthRepository) Login(params *request.AuthLoginRequest) (authLo
 	var user *models.User
 	if params.Username != "admin" {
 		var password = utils.MD5(params.Password)
-		result := models.NewDb().Where("( tel = ? or email= ? ) and password = ?", params.Username, params.Username, password).First(&user)
+		result := models.Db.Where("( tel = ? or email= ? ) and password = ?", params.Username, params.Username, password).First(&user)
 		if result.RowsAffected == 0 {
 			r = response.NewErrorResponse(constants.ErrorUsernameOrPassword)
 			return authLogin, r

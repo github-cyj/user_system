@@ -9,7 +9,7 @@ import (
 	"user_system/app/constants"
 	"user_system/app/middleware"
 	"user_system/app/response"
-	"user_system/base"
+	"user_system/conf"
 	"user_system/routes/api"
 )
 
@@ -25,7 +25,7 @@ func Route() *gin.Engine {
 		).ReturnWithHttpCode(c, http.StatusInternalServerError)
 	}))
 	// 加载静态资源
-	r.Static("/upload", base.RootDir+"/upload")
+	r.Static("/upload", conf.RootPath+"/upload")
 	// 加载路由定义
 	getApi(r)
 	return r

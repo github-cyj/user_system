@@ -5,5 +5,5 @@
 *.ini
 /logs/*
 main
-main.exe
+*.exe
 user_system

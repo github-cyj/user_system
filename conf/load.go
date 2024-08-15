@@ -14,12 +14,12 @@ var conf *ini.File
 
 func Setup() {
 	RootPath, _ = filepath.Abs(filepath.Dir(os.Args[0]))
-	var iniPath = flag.String("c", path.Join(RootPath, "dev.ini"), "ini配置文件")
+	var iniPath = flag.String("c", path.Join(RootPath, "app.ini"), "ini配置文件")
 	RootPath = filepath.Dir(*iniPath)
 	var err error
 	conf, err = ini.Load(*iniPath)
 	if err != nil {
-		log.Fatalf("setting.Setup, fail to parse dev.ini': %v", err)
+		log.Fatalf("setting.Setup, fail to parse app.ini': %v", err)
 	}
 	loadServeConf()
 	loadFileConf()
